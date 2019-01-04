@@ -7,9 +7,12 @@ import (
 )
 
 const (
-	BASE_FREQUENCY = 13.75
-	NUM_NOTES      = 128
-	SEMITONE       = 1.0594630944
+	SEMITONE = 1.0594630944
+)
+
+var (
+	BASE_FREQUENCY float64
+	NUM_NOTES      int
 )
 
 type Moment struct {
@@ -40,7 +43,11 @@ type Sampler interface {
 	SampleRate() float64
 }
 
-func ExtractFrequencies(c chan Moment, sampler Sampler, interval float64, extension int) error {
+func ExtractFrequencies(c chan Moment, sampler Sampler, interval float64, extension int, lowFreq, highFreq float64) error {
+
+	BASE_FREQUENCY = lowFreq
+	NUM_NOTES = int(math.Ceil(math.Log(highFreq/lowFreq)/math.Log(SEMITONE)))
+
 	samplesPerMoment := int(interval * float64(sampler.SampleRate()))
 
 	var moment Moment
@@ -75,10 +82,13 @@ func processMoment(moment *Moment, sampleRate float64, extension int) {
 	}
 	moment.BassPower = 0
 
-	highSample := int(math.Ceil(math.Log(150/'BASE_FREQUENCY) / math.Log(SEMITONE)))
-	lowSample := int(math.Max(0, math.Ceil(math.Log(30/BASE_FREQUENCY)/math.Log(SEMITONE))))
+	highSample := int(math.Ceil(math.Log(200/BASE_FREQUENCY) / math.Log(SEMITONE)))
+	lowSample := int(math.Max(0, math.Ceil(math.Log(1/BASE_FREQUENCY)/math.Log(SEMITONE))))
 	for i := lowSample; i < highSample; i++ {
-		moment.BassPower += moment.Frequencies[i]
+		moment.BassPower += math.Sqrt(moment.Frequencies[i])
 	}
+
+	moment.BassPower *= moment.BassPower
+
 	moment.BassPower /= float64(highSample - lowSample)
 }

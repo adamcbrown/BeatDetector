@@ -3,16 +3,6 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/faiface/beep"
-  packages = [
-    ".",
-    "speaker",
-    "wav"
-  ]
-  revision = "186a1b19424c83e881e07f0565466a27325c39f9"
-
-[[projects]]
-  branch = "master"
   name = "github.com/faiface/glhf"
   packages = ["."]
   revision = "82a6317ac380cdc61567d729fe48833d75b8108e"
@@ -53,27 +43,9 @@
 
 [[projects]]
   branch = "master"
-  name = "github.com/gopherjs/gopherjs"
-  packages = ["js"]
-  revision = "0766667cb4d1cfb8d5fde1fe210ae41ead3cf589"
-
-[[projects]]
-  name = "github.com/gopherjs/gopherwasm"
-  packages = ["js"]
-  revision = "b0e1786f520333e4546f02930c5ca8a929b38841"
-  version = "v1.0.1"
-
-[[projects]]
-  branch = "master"
   name = "github.com/gordonklaus/portaudio"
   packages = ["."]
   revision = "00e7307ccd93051979a933c6fd5ead641eba5686"
-
-[[projects]]
-  name = "github.com/hajimehoshi/oto"
-  packages = ["."]
-  revision = "3a9bb05c78a0583c0f5a6c041eeb05a6ceec8ef9"
-  version = "v0.2.1"
 
 [[projects]]
   name = "github.com/pkg/errors"
@@ -95,55 +67,13 @@
 
 [[projects]]
   branch = "master"
-  name = "golang.org/x/exp"
-  packages = [
-    "shiny/driver/gldriver",
-    "shiny/driver/internal/drawer",
-    "shiny/driver/internal/errscreen",
-    "shiny/driver/internal/event",
-    "shiny/driver/internal/lifecycler",
-    "shiny/driver/internal/win32",
-    "shiny/driver/internal/x11key",
-    "shiny/screen"
-  ]
-  revision = "42ba7d4b6eb299bf56fcfc4f0541a857ad0e2da3"
-
-[[projects]]
-  branch = "master"
   name = "golang.org/x/image"
-  packages = [
-    "math/f32",
-    "math/f64"
-  ]
+  packages = ["math/f32"]
   revision = "2a2258ff36e99cf9156acfc715e3f83d47d6f0fd"
-
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/mobile"
-  packages = [
-    "app",
-    "app/internal/callfn",
-    "event/key",
-    "event/lifecycle",
-    "event/mouse",
-    "event/paint",
-    "event/size",
-    "event/touch",
-    "geom",
-    "gl",
-    "internal/mobileinit"
-  ]
-  revision = "a27dd33d354d004b2de14a791df5af8a00f68b8e"
-
-[[projects]]
-  branch = "master"
-  name = "golang.org/x/sys"
-  packages = ["windows"]
-  revision = "95b1ffbd15a57cc5abb3f04402b9e8ec0016a52c"
 
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "c433842a7f0a0ed03edf5509972b312fe60c086369f92194082636a6daa7cb2c"
+  inputs-digest = "da5550df25f9641a9114876953c9f52bfe190a82b0ffc1729ceb4a92e67a67b1"
   solver-name = "gps-cdcl"
   solver-version = 1

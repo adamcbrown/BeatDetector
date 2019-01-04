@@ -19,19 +19,19 @@ func NewPortAudioSampler(channel string) (*PortAudioSampler, error) {
 		return nil, err
 	}
 
-	// devices, err := portaudio.Devices()
-	// if err != nil {
-	// 	return nil, err
-	// }
+	devices, err := portaudio.Devices()
+	if err != nil {
+		return nil, err
+	}
 
 	var device *portaudio.DeviceInfo
-	// for _, x := range devices {
-	// 	fmt.Println(x.Name)
-	// 	if x.Name == channel {
-	// 		device = x
-	// 		break
-	// 	}
-	// }
+	for _, x := range devices {
+		fmt.Println(x.Name)
+		if x.Name == channel {
+			device = x
+			break
+		}
+	}
 
 	device, _ = portaudio.DefaultInputDevice()
 	fmt.Println(device.Name)
@@ -39,6 +39,7 @@ func NewPortAudioSampler(channel string) (*PortAudioSampler, error) {
 	var sampler PortAudioSampler
 	sampler.channels = device.MaxInputChannels
 	sampler.sampleCount = -1
+	sampler.samples = make([]float32, 1024)
 
 	sampler.stream, err = portaudio.OpenStream(portaudio.StreamParameters{
 		Output: portaudio.StreamDeviceParameters{
@@ -52,6 +53,10 @@ func NewPortAudioSampler(channel string) (*PortAudioSampler, error) {
 		FramesPerBuffer: 1024,
 	}, &sampler.samples)
 
+	sampler.sampleRate = device.DefaultSampleRate
+
+	err = sampler.stream.Start()
+
 	if err != nil {
 		return nil, err
 	}
@@ -63,12 +68,10 @@ func (s *PortAudioSampler) Next() (float64, error) {
 	if s.sampleCount == -1 {
 		s.sampleCount = 0
 		err := s.stream.Read()
-		fmt.Println("Read", err)
 		if err == nil {
 			return 0, err
 		}
 	}
-	fmt.Println("Samples: ", s.samples)
 
 	avg := 0.0
 	for i := 0; i < s.channels; i++ {
@@ -76,10 +79,10 @@ func (s *PortAudioSampler) Next() (float64, error) {
 	}
 	avg /= float64(s.channels)
 
-	s.sampleCount += 1
-	// if s.sampleCount == len(s.samples[0]) {
-	// 	s.sampleCount = -1
-	// }
+	s.sampleCount += s.channels
+	if s.sampleCount == len(s.samples) {
+		s.sampleCount = -1
+	}
 
 	return float64(avg), nil
 }

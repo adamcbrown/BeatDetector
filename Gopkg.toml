@@ -26,13 +26,10 @@
 
 
 [prune]
+  non-go = true
   go-tests = true
   unused-packages = true
 
-[[constraint]]
-  branch = "master"
-  name = "github.com/aerth/playwav"
-
-[[constraint]]
-  branch = "master"
-  name = "github.com/faiface/beep"
+  [[prune.project]]
+  	name = "github.com/go-gl/glfw"
+  	unused-packages = false
